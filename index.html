@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#4B0082" />
+  <title>Pepper | Hayato's Executive Assistant</title>
+  <style>
+    :root {
+      --bg: #FFFFFF;
+      --surface: #FFFFFF;
+      --surface-muted: #F8FAFC;
+      --text: #1E293B;
+      --text-secondary: #64748B;
+      --border: #E2E8F0;
+      --border-light: #CBD5E1;
+      --accent-mail: #0D9488;
+      --accent-messages: #6366F1;
+      --accent-planner: #059669;
+      --accent-governance: #059669;
+      --accent-sitelead: #0891B2;
+      --accent-personal: #6366F1;
+      --warning: #DC2626;
+      --info: #6366F1;
+      --hero-gradient: linear-gradient(135deg, #4B0082 0%, #0891B2 100%);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+    }
+    .page { max-width: 1040px; margin: 0 auto; padding: 16px 16px 32px; }
+    .hero {
+      padding: 28px 32px;
+      border-radius: 16px;
+      background: var(--hero-gradient);
+      color: #FFFFFF;
+    }
+    .hero-eyebrow {
+      margin: 0 0 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+    }
+    h1 { margin: 0; font-size: 1.75rem; color: #FFFFFF; font-weight: 700; }
+    .meta { margin: 8px 0 0; font-size: 0.875rem; color: rgba(255,255,255,0.9); }
+    .badge {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 0.75rem; padding: 4px 12px; border-radius: 999px;
+      background: #FFFFFF; color: #475569; border: 1px solid var(--border-light);
+    }
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 24px; }
+    .card-full { grid-column: 1 / -1; }
+    @media (max-width: 900px) { .cards { grid-template-columns: 1fr; } }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+    .card-mail { border-left: 5px solid var(--accent-mail); }
+    .card-messages { border-left: 5px solid var(--accent-messages); }
+    .card-planner { border-left: 5px solid var(--accent-planner); }
+    .card-head {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding: 12px 14px; border-bottom: 1px solid var(--border); background: var(--surface-muted);
+    }
+    .card-head h2 { margin: 0; font-size: 1rem; font-weight: 650; color: var(--text); }
+    .card-body { padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+    .stat-row { display: flex; flex-wrap: wrap; gap: 18px; }
+    .stat-value { font-size: 1.75rem; font-weight: 700; line-height: 1.1; }
+    .stat-label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
+    .accent-mail { color: var(--accent-mail); }
+    .accent-messages { color: var(--accent-messages); }
+    .accent-planner { color: var(--accent-planner); }
+    .source { font-size: 0.75rem; color: var(--text-secondary); border-top: 1px solid var(--border); padding-top: 10px; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+    .data-table th, .data-table td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--border); color: var(--text); }
+    .data-table th { background: var(--surface-muted); font-weight: 600; color: var(--text-secondary); }
+    .data-table tr:last-child td { border-bottom: none; }
+    .tone-warning td:first-child::before { content: "● "; color: var(--warning); }
+    .tone-info td:first-child::before { content: "● "; color: var(--info); }
+    .callout { padding: 10px 12px; border-radius: 8px; font-size: 0.85rem; border: 1px solid var(--border); background: var(--surface-muted); color: var(--text); }
+    .callout p { margin: 6px 0 0; color: var(--text-secondary); }
+    .usage-wrap { display: flex; flex-direction: column; gap: 6px; }
+    .usage-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary); }
+    .usage-bar { display: flex; height: 10px; border-radius: 999px; overflow: hidden; background: var(--surface-muted); border: 1px solid var(--border); }
+    .usage-seg { min-width: 4px; }
+    .seg-green { background: #059669; }
+    .seg-cyan { background: #0891B2; }
+    .seg-purple { background: #6366F1; }
+    .planner-columns {
+      display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;
+    }
+    @media (max-width: 900px) { .planner-columns { grid-template-columns: 1fr; } }
+    .plan-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+    }
+    .accent-governance { border-left: 5px solid var(--accent-governance); }
+    .accent-sitelead { border-left: 5px solid var(--accent-sitelead); }
+    .accent-personal { border-left: 5px solid var(--accent-personal); }
+    .plan-card-head {
+      padding: 10px 12px; border-bottom: 1px solid var(--border); background: var(--surface-muted);
+    }
+    .plan-card-head h4 { margin: 0; color: var(--text); font-size: 0.9rem; font-weight: 650; }
+    .plan-card-body { padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+    footer { margin-top: 20px; text-align: center; font-size: 0.75rem; color: var(--text-secondary); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <p class="hero-eyebrow">Pepper</p>
+      <h1>Pepper | Hayato's Executive Assistant</h1>
+      <p class="meta">HAYATON@amdocs.com · snapshot Sep 9, 03:05 PM</p>
+      <span class="badge">3-card snapshot · live data</span>
+    </header>
+
+    <main class="cards">
+      <article class="card card-mail">
+        <div class="card-head"><h2>Mail</h2><span class="badge">Mail</span></div>
+        <div class="card-body">
+          <div class="stat-row"><div class="stat">
+    <div class="stat-value accent-mail">3</div>
+    <div class="stat-label">Unread in inbox</div>
+  </div><div class="stat">
+    <div class="stat-value accent-mail">1</div>
+    <div class="stat-label">Important unread</div>
+  </div></div>
+          
+          <table class="data-table"><thead><tr><th>VIP unread</th><th>From</th></tr></thead><tbody><tr class="tone-info"><td>Change Management - SLA Penalty Exemptions</td><td>Moshe Maharaban</td></tr></tbody></table>
+          <p class="source">Source: Outlook Web (inbox folder badge) · Today's meetings: 24</p>
+        </div>
+      </article>
+
+      <article class="card card-messages">
+        <div class="card-head"><h2>Messages</h2><span class="badge">Teams</span></div>
+        <div class="card-body">
+          <div class="stat">
+    <div class="stat-value accent-messages">17</div>
+    <div class="stat-label">Unread chats</div>
+  </div>
+          <table class="data-table"><thead><tr><th>Chat</th><th>Unread msgs</th></tr></thead><tbody><tr class=""><td>PM Daily Sync up with SDM</td><td>—</td></tr><tr class=""><td>Globe | IAR 829 - Roaming OB and SL Barring | Internal Review</td><td>—</td></tr><tr class=""><td>G-834 OCA Number Normalization  IA/EPIC  - Internal Review</td><td>—</td></tr><tr class=""><td>R25.11|Globe | IAR831 | Port Out Clean Up | External Test Case Review</td><td>—</td></tr><tr class=""><td>IAR830|EPIC G-830-Collection Notification via Flash Messages|Internal review</td><td>—</td></tr><tr class=""><td>G-829 - SL/OB Barring/Unbarring|Test Scenario Internal Review</td><td>—</td></tr><tr class=""><td>Internal Review -  IAR-G-830-Collection Notification via Flash Message</td><td>—</td></tr><tr class=""><td>Globe Cakes Meeting</td><td>—</td></tr><tr class=""><td>Leadership Session: Dinesh Mohapatra</td><td>—</td></tr><tr class=""><td>[War Room] 917-2025 Event: Capacity Assessment Validation &amp; PM/Health Check Status</td><td>—</td></tr><tr class=""><td>G-829 - SL/OB Barring/Unbarring EPIC/IA Internal Review</td><td>—</td></tr><tr class=""><td>Internal Review -  IARG-831 - MNP-CM9-Portout Cleanup</td><td>—</td></tr><tr class=""><td>[Amdocs Internal Bridge] BSS OCI ExaCC Deployment</td><td>—</td></tr><tr class=""><td>[IAR G-827] - MNP for Dito Number Series (08 Prefix) IA review</td><td>—</td></tr><tr class=""><td>[Amdocs Internal Bridge] BSS OCI ExaCC Stabilization</td><td>—</td></tr><tr class=""><td>[Amdocs Internal Bridge] BSS OCI ExaCC Stabilization</td><td>—</td></tr><tr class=""><td>[Amdocs Internal Bridge] BSS OCI ExaCC Deployment</td><td>—</td></tr></tbody></table>
+          <p class="source">Source: Microsoft Graph (Teams MCP token) · unread chats via read receipts</p>
+        </div>
+      </article>
+
+      <article class="card card-full card-planner">
+        <div class="card-head"><h2>Planner</h2><span class="badge">Planner Web</span></div>
+        <div class="card-body">
+          <div class="stat-row">
+            <div class="stat">
+    <div class="stat-value accent-planner">24</div>
+    <div class="stat-label">Open (3 plans)</div>
+  </div>
+            <div class="stat">
+    <div class="stat-value accent-planner">13</div>
+    <div class="stat-label">No assignee</div>
+  </div>
+          </div>
+          <div class="usage-wrap">
+    <div class="usage-labels"><span>Open by plan</span><span>24 total</span></div>
+    <div class="usage-bar"><span class="usage-seg seg-green" style="flex:9" title="Governance AI Tracker: 9"></span><span class="usage-seg seg-cyan" style="flex:8" title="Manila Site Lead: 8"></span><span class="usage-seg seg-purple" style="flex:7" title="Personal: 7"></span></div>
+  </div>
+          <table class="data-table"><thead><tr><th>Due status</th><th>Count</th></tr></thead><tbody><tr class="tone-warning"><td>Past due</td><td>9</td></tr><tr class="tone-info"><td>Incoming (next 7d)</td><td>1</td></tr></tbody></table>
+          <div class="planner-columns"><article class="plan-card accent-governance">
+      <div class="plan-card-head"><h4>Governance</h4></div>
+      <div class="plan-card-body">
+      <table class="data-table"><thead><tr><th>Metric</th><th>Count</th></tr></thead><tbody><tr class=""><td>Open</td><td>9</td></tr><tr class=""><td>No assignee</td><td>0</td></tr><tr class=""><td>Past due</td><td>8</td></tr><tr class=""><td>Due ≤7d</td><td>0</td></tr></tbody></table>
+      <table class="data-table"><thead><tr><th>Assignee</th><th>Open</th></tr></thead><tbody><tr class=""><td>Rosario Cavello</td><td>2</td></tr><tr class=""><td>Hayato Niihara</td><td>1</td></tr><tr class=""><td>Eunice Riclyn Cuezon</td><td>2</td></tr><tr class=""><td>Ivy Toledo</td><td>2</td></tr><tr class=""><td>Rosario Cavello, Ivy Toledo</td><td>1</td></tr><tr class=""><td>Hayato Niihara, Anna Liza Nato</td><td>1</td></tr></tbody></table>
+      </div>
+    </article><article class="plan-card accent-sitelead">
+      <div class="plan-card-head"><h4>SiteLead</h4></div>
+      <div class="plan-card-body">
+      <table class="data-table"><thead><tr><th>Metric</th><th>Count</th></tr></thead><tbody><tr class=""><td>Open</td><td>8</td></tr><tr class=""><td>No assignee</td><td>6</td></tr><tr class=""><td>Past due</td><td>1</td></tr><tr class=""><td>Due ≤7d</td><td>0</td></tr></tbody></table>
+      <table class="data-table"><thead><tr><th>Assignee</th><th>Open</th></tr></thead><tbody><tr class=""><td>Unassigned</td><td>6</td></tr><tr class=""><td>Hayato Niihara</td><td>1</td></tr><tr class=""><td>Criselda Angeline Francisco</td><td>1</td></tr></tbody></table>
+      </div>
+    </article><article class="plan-card accent-personal">
+      <div class="plan-card-head"><h4>Personal</h4></div>
+      <div class="plan-card-body">
+      <table class="data-table"><thead><tr><th>Metric</th><th>Count</th></tr></thead><tbody><tr class=""><td>Open</td><td>7</td></tr><tr class=""><td>No assignee</td><td>7</td></tr><tr class=""><td>Past due</td><td>0</td></tr><tr class=""><td>Due ≤7d</td><td>1</td></tr></tbody></table>
+      <table class="data-table"><thead><tr><th>Assignee</th><th>Open</th></tr></thead><tbody><tr class=""><td>Unassigned</td><td>7</td></tr></tbody></table>
+      </div>
+    </article></div>
+          <p class="source">Source: Planner Web (3 pinned plans) · excludes flagged emails</p>
+        </div>
+      </article>
+    </main>
+
+    <footer>Snapshot only — refresh on desktop to update · Sep 9, 03:05 PM</footer>
+  </div>
+</body>
+</html>
